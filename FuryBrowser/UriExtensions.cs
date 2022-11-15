@@ -6,9 +6,14 @@ public static class UriExtensions
 {
 	public static Uri UpgradeToHttps(this Uri source)
 	{
-		var ub = new UriBuilder("https://", source.Host, -1, source.AbsolutePath);
-		ub.Query = source.Query;
-		ub.Fragment = source.Fragment;
+		var ub = new UriBuilder
+		{
+			Scheme = "https://",
+			Host = source.Host,
+			Path = source.AbsolutePath,
+			Query = source.Query,
+			Fragment = source.Fragment,
+		};
 		return ub.Uri;
 	}
 }
