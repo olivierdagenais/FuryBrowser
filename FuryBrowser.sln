@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.1.32421.90
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuryBrowser", "FuryBrowser\FuryBrowser.csproj", "{A76FDB50-DA8A-4CD3-9EC0-CFCE7A625708}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "FuryBrowser", "FuryBrowser\FuryBrowser.csproj", "{A76FDB50-DA8A-4CD3-9EC0-CFCE7A625708}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FuryBrowser.Test", "FuryBrowser.Test\FuryBrowser.Test.csproj", "{95BCD3BB-57F9-4275-BE4C-BE4B848DE026}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{A76FDB50-DA8A-4CD3-9EC0-CFCE7A625708}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A76FDB50-DA8A-4CD3-9EC0-CFCE7A625708}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A76FDB50-DA8A-4CD3-9EC0-CFCE7A625708}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95BCD3BB-57F9-4275-BE4C-BE4B848DE026}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95BCD3BB-57F9-4275-BE4C-BE4B848DE026}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95BCD3BB-57F9-4275-BE4C-BE4B848DE026}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95BCD3BB-57F9-4275-BE4C-BE4B848DE026}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
