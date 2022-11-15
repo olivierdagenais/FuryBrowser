@@ -68,6 +68,11 @@ public partial class MainWindow : Window
 
 	private void ButtonGo_Click(object sender, RoutedEventArgs e)
 	{
+		Navigate();
+	}
+
+	private void Navigate()
+	{
 		if (webView != null && webView.CoreWebView2 != null)
 		{
 			webView.CoreWebView2.Navigate(addressBar.Text);
