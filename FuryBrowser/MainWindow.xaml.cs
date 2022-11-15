@@ -1,5 +1,7 @@
 ﻿using System;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
 using Microsoft.Web.WebView2.Core;
 
 namespace FuryBrowser;
@@ -13,6 +15,39 @@ public partial class MainWindow : Window
 	{
 		InitializeComponent();
 		webView.NavigationStarting += EnsureHttps;
+		var goToAddressBar = new GoToAddressBar(addressBar);
+		this.InputBindings.Add(new KeyBinding(
+			goToAddressBar,
+			Key.D,
+			ModifierKeys.Alt
+		));
+		this.InputBindings.Add(new KeyBinding(
+			goToAddressBar,
+			Key.L,
+			ModifierKeys.Control
+		));
+	}
+
+	class GoToAddressBar : ICommand
+	{
+		private readonly TextBox _destination;
+
+		public GoToAddressBar(TextBox destination)
+		{
+			_destination = destination;
+		}
+
+		public bool CanExecute(object? parameter)
+		{
+			return true;
+		}
+
+		public void Execute(object? parameter)
+		{
+			_destination.Focus();
+		}
+
+		public event EventHandler? CanExecuteChanged;
 	}
 
 	private void EnsureHttps(object? sender, CoreWebView2NavigationStartingEventArgs args)
