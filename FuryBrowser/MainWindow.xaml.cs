@@ -26,6 +26,15 @@ public partial class MainWindow : Window
 			Key.L,
 			ModifierKeys.Control
 		));
+		this.addressBar.KeyDown += AddressBar_KeyDown;
+	}
+
+	private void AddressBar_KeyDown(object sender, KeyEventArgs e)
+	{
+		if (e.Key == Key.Enter)
+		{
+			Navigate();
+		}
 	}
 
 	class GoToAddressBar : ICommand
