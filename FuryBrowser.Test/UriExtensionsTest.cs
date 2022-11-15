@@ -15,4 +15,14 @@ public class UriExtensionsTest
 
 		Assert.AreEqual("https://duckduckgo.com/", actual.ToString());
 	}
+
+	[TestMethod]
+	public void UpgradeToHttps_HttpsAlready()
+	{
+		var input = new Uri("https://duckduckgo.com");
+
+		var actual = UriExtensions.UpgradeToHttps(input);
+
+		Assert.AreEqual("https://duckduckgo.com/", actual.ToString());
+	}
 }
