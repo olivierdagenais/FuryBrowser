@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using System;
+using System.Windows;
 using Microsoft.Web.WebView2.Core;
 
 namespace FuryBrowser;
@@ -17,10 +18,16 @@ public partial class MainWindow : Window
 	private void EnsureHttps(object? sender, CoreWebView2NavigationStartingEventArgs args)
 	{
 		string uri = args.Uri;
-		if (!uri.StartsWith("https://"))
+		if (uri.StartsWith("http://"))
 		{
-			webView.CoreWebView2.ExecuteScriptAsync($"alert('{uri} is not safe, try an https link')");
+			var parsedUri = new Uri(uri);
+			var upgradedUri = parsedUri.UpgradeToHttps();
+			webView.Source = upgradedUri;
 			args.Cancel = true;
+		}
+		else
+		{
+			addressBar.Text = uri;
 		}
 	}
 
