@@ -6,5 +6,13 @@
 [TestClass]
 public class UriExtensionsTest
 {
+	[TestMethod]
+	public void UpgradeToHttps_HttpOnly()
+	{
+		var input = new Uri("http://duckduckgo.com");
 
+		var actual = UriExtensions.UpgradeToHttps(input);
+
+		Assert.AreEqual("https://duckduckgo.com/", actual.ToString());
+	}
 }
