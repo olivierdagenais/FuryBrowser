@@ -19,6 +19,7 @@ public partial class MainWindow : Window
 		string uri = args.Uri;
 		if (!uri.StartsWith("https://"))
 		{
+			webView.CoreWebView2.ExecuteScriptAsync($"alert('{uri} is not safe, try an https link')");
 			args.Cancel = true;
 		}
 	}
