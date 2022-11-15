@@ -8,6 +8,15 @@
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
+        <DockPanel DockPanel.Dock="Top">
+            <Button x:Name="ButtonGo"
+                    DockPanel.Dock="Right"
+                    Click="ButtonGo_Click"
+                    Content="Go"
+                    TabIndex="2"
+            />
+            <TextBox Name="addressBar" TabIndex="1"/>
+        </DockPanel>
         <wv2:WebView2 Name="webView"
                       Source="https://www.microsoft.com"
         />
