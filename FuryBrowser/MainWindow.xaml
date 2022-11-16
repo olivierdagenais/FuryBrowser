@@ -19,7 +19,14 @@
                     Content="Go"
                     TabIndex="2"
             />
-            <TextBox Name="addressBar" TabIndex="1"/>
+            <!-- We want the address bar to update based on the WebView's Source,
+            but we don't want the WebView to navigate just from the user typing
+            into the address bar. Therefore we use the OneWay binding mode. -->
+            <TextBox Name="addressBar" TabIndex="1" Text="{Binding ElementName=webView,Path=Source,Mode=OneWay}">
+                <TextBox.InputBindings>
+                    <KeyBinding Key="Return" Command="NavigationCommands.GoToPage" CommandParameter="{Binding ElementName=addressBar,Path=Text}" />
+                </TextBox.InputBindings>
+            </TextBox>
         </DockPanel>
         <wv2:WebView2 Name="webView"
                       Source="https://duckduckgo.com"

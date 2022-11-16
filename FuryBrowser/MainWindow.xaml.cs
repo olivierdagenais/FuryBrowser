@@ -26,7 +26,6 @@ public partial class MainWindow : Window
 			Key.L,
 			ModifierKeys.Control
 		));
-		this.addressBar.KeyDown += AddressBar_KeyDown;
 		this.addressBar.GotFocus += AddressBar_GotFocus;
 		this.addressBar.LostFocus += AddressBar_LostFocus;
 	}
@@ -41,14 +40,6 @@ public partial class MainWindow : Window
 		if (addressBar == e.Source)
 		{
 			addressBar.SelectAll();
-		}
-	}
-
-	private void AddressBar_KeyDown(object sender, KeyEventArgs e)
-	{
-		if (e.Key == Key.Enter)
-		{
-			Navigate(addressBar.Text);
 		}
 	}
 
@@ -76,8 +67,6 @@ public partial class MainWindow : Window
 
 	private void EnsureHttps(object? sender, CoreWebView2NavigationStartingEventArgs args)
 	{
-		// even if for a fleeting moment...
-		addressBar.Text = args.Uri;
 		var uri = InterpretOmnibarText(args.Uri);
 		if (uri != null)
 		{
