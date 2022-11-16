@@ -76,18 +76,26 @@ public partial class MainWindow : Window
 
 	private void EnsureHttps(object? sender, CoreWebView2NavigationStartingEventArgs args)
 	{
-		string uri = args.Uri;
-		if (uri.StartsWith("http://"))
+		// even if for a fleeting moment...
+		addressBar.Text = args.Uri;
+		var uri = InterpretOmnibarText(args.Uri);
+		if (uri != null)
 		{
-			var parsedUri = new Uri(uri);
-			var upgradedUri = parsedUri.UpgradeToHttps();
-			webView.Source = upgradedUri;
+			webView.Source = uri;
 			args.Cancel = true;
 		}
-		else
+	}
+
+	internal static Uri? InterpretOmnibarText(string s)
+	{
+		if (s.StartsWith("http://"))
 		{
-			addressBar.Text = uri;
+			var parsedUri = new Uri(s);
+			var upgradedUri = parsedUri.UpgradeToHttps();
+			return upgradedUri;
 		}
+
+		return null;
 	}
 
 	private void ButtonGo_Click(object sender, RoutedEventArgs e)
