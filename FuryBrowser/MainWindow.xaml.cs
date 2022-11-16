@@ -108,12 +108,11 @@ public partial class MainWindow : Window
 		Navigate(addressBar.Text);
 	}
 
-	private void Navigate(string text)
+	async void Navigate(string text)
 	{
-		if (webView != null && webView.CoreWebView2 != null)
-		{
-			var uri = InterpretOmnibarText(text);
-			webView.CoreWebView2.Navigate(uri?.ToString() ?? text);
-		}
+		await webView.EnsureCoreWebView2Async();
+		var uri = InterpretOmnibarText(text);
+		webView.CoreWebView2.Navigate(uri?.ToString() ?? text);
 	}
+
 }
