@@ -48,7 +48,7 @@ public partial class MainWindow : Window
 	{
 		if (e.Key == Key.Enter)
 		{
-			Navigate();
+			Navigate(addressBar.Text);
 		}
 	}
 
@@ -105,15 +105,15 @@ public partial class MainWindow : Window
 
 	private void ButtonGo_Click(object sender, RoutedEventArgs e)
 	{
-		Navigate();
+		Navigate(addressBar.Text);
 	}
 
-	private void Navigate()
+	private void Navigate(string text)
 	{
 		if (webView != null && webView.CoreWebView2 != null)
 		{
-			var uri = InterpretOmnibarText(addressBar.Text);
-			webView.CoreWebView2.Navigate(uri?.ToString() ?? addressBar.Text);
+			var uri = InterpretOmnibarText(text);
+			webView.CoreWebView2.Navigate(uri?.ToString() ?? text);
 		}
 	}
 }
