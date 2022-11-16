@@ -27,6 +27,21 @@ public partial class MainWindow : Window
 			ModifierKeys.Control
 		));
 		this.addressBar.KeyDown += AddressBar_KeyDown;
+		this.addressBar.GotFocus += AddressBar_GotFocus;
+		this.addressBar.LostFocus += AddressBar_LostFocus;
+	}
+
+	private void AddressBar_LostFocus(object sender, RoutedEventArgs e)
+	{
+		addressBar.Select(0, 0);
+	}
+
+	private void AddressBar_GotFocus(object sender, RoutedEventArgs e)
+	{
+		if (addressBar == e.Source)
+		{
+			addressBar.SelectAll();
+		}
 	}
 
 	private void AddressBar_KeyDown(object sender, KeyEventArgs e)
@@ -54,7 +69,6 @@ public partial class MainWindow : Window
 		public void Execute(object? parameter)
 		{
 			_destination.Focus();
-			_destination.SelectAll();
 		}
 
 		public event EventHandler? CanExecuteChanged;
