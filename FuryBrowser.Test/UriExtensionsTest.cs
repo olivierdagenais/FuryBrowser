@@ -17,6 +17,28 @@ public class UriExtensionsTest
 	}
 
 	[TestMethod]
+	public void LooksLikeHostWithMaybePath_HostSlashPath()
+	{
+		var input = "duckduckgo.com/about";
+
+		var actual = UriExtensions.LooksLikeHostWithMaybePath(input);
+
+		Assert.IsNotNull(actual);
+		Assert.AreEqual("duckduckgo.com", actual.Item1);
+		Assert.AreEqual("/about", actual.Item2);
+	}
+
+	[TestMethod]
+	public void LooksLikeHostWithMaybePath_Slash()
+	{
+		var input = "/";
+
+		var actual = UriExtensions.LooksLikeHostWithMaybePath(input);
+
+		Assert.IsNull(actual);
+	}
+
+	[TestMethod]
 	public void LooksLikeHostWithMaybePath_TwoDotSeparated()
 	{
 		var input = "duckduckgo.com";
