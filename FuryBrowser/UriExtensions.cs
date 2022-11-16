@@ -22,6 +22,19 @@ public static class UriExtensions
 			};
 			return ub.Uri;
 		}
+
+		var tuple = LooksLikeHostWithMaybePath(omnibarText);
+		if (tuple != null)
+		{
+			var ub = new UriBuilder
+			{
+				Scheme = "https://",
+				Host = tuple.Item1,
+				Path = tuple.Item2,
+			};
+			return ub.Uri;
+
+		}
 		throw new NotImplementedException();
 	}
 
