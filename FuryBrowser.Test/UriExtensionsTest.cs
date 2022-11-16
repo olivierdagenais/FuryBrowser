@@ -7,6 +7,17 @@
 public class UriExtensionsTest
 {
 	[TestMethod]
+	public void GuessDestination_SpacesMeanSearch()
+	{
+		var input = "two words";
+
+		var actual = UriExtensions.GuessDestination(input);
+
+		Assert.AreEqual("https://duckduckgo.com/?q=two+words", actual.ToString());
+
+	}
+
+	[TestMethod]
 	public void UpgradeToHttps_HttpOnly()
 	{
 		var input = new Uri("http://duckduckgo.com");
