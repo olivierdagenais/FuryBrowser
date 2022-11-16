@@ -7,11 +7,15 @@
         xmlns:wv2="clr-namespace:Microsoft.Web.WebView2.Wpf;assembly=Microsoft.Web.WebView2.Wpf"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
+    <Window.CommandBindings>
+        <CommandBinding Command="GoToPage" Executed="GoToPageCmdExecuted" CanExecute="GoToPageCmdCanExecute" />
+    </Window.CommandBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Button x:Name="ButtonGo"
                     DockPanel.Dock="Right"
-                    Click="ButtonGo_Click"
+                    Command="GoToPage"
+                    CommandParameter="{Binding ElementName=addressBar,Path=Text}"
                     Content="Go"
                     TabIndex="2"
             />

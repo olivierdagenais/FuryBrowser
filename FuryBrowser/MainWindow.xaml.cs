@@ -103,11 +103,6 @@ public partial class MainWindow : Window
 		return finalDestination;
 	}
 
-	private void ButtonGo_Click(object sender, RoutedEventArgs e)
-	{
-		Navigate(addressBar.Text);
-	}
-
 	async void Navigate(string text)
 	{
 		await webView.EnsureCoreWebView2Async();
@@ -115,4 +110,13 @@ public partial class MainWindow : Window
 		webView.CoreWebView2.Navigate(uri?.ToString() ?? text);
 	}
 
+	void GoToPageCmdExecuted(object sender, ExecutedRoutedEventArgs e)
+	{
+		Navigate((string)e.Parameter);
+	}
+
+	private void GoToPageCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
+	{
+		e.CanExecute = webView != null /* && !isNavigating */;
+	}
 }
