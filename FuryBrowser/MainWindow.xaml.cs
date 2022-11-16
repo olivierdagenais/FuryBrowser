@@ -94,8 +94,13 @@ public partial class MainWindow : Window
 			var upgradedUri = parsedUri.UpgradeToHttps();
 			return upgradedUri;
 		}
+		if (s.StartsWith("https://") || s.StartsWith("about:") || s.StartsWith("edge:"))
+		{
+			return null;
+		}
 
-		return null;
+		var finalDestination = UriExtensions.GuessDestination(s);
+		return finalDestination;
 	}
 
 	private void ButtonGo_Click(object sender, RoutedEventArgs e)
