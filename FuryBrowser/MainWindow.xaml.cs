@@ -107,7 +107,8 @@ public partial class MainWindow : Window
 	{
 		if (webView != null && webView.CoreWebView2 != null)
 		{
-			webView.CoreWebView2.Navigate(addressBar.Text);
+			var uri = InterpretOmnibarText(addressBar.Text);
+			webView.CoreWebView2.Navigate(uri?.ToString() ?? addressBar.Text);
 		}
 	}
 }
