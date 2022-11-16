@@ -54,6 +54,7 @@ public partial class MainWindow : Window
 		public void Execute(object? parameter)
 		{
 			_destination.Focus();
+			_destination.SelectAll();
 		}
 
 		public event EventHandler? CanExecuteChanged;
