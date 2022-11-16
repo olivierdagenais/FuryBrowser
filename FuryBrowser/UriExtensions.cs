@@ -1,10 +1,14 @@
 ﻿using System;
+using System.Text.RegularExpressions;
 using System.Web;
 
 namespace FuryBrowser;
 
 public static class UriExtensions
 {
+	private static readonly Regex HostWithMaybePath =
+		new("^(?<host>\\w+(\\.\\w+)*)(?<path>/.+)?$");
+
 	public static Uri GuessDestination(this string omnibarText)
 	{
 		if (omnibarText.Contains(" "))
@@ -19,6 +23,19 @@ public static class UriExtensions
 			return ub.Uri;
 		}
 		throw new NotImplementedException();
+	}
+
+	public static Tuple<string, string>? LooksLikeHostWithMaybePath(this string s)
+	{
+		var match = HostWithMaybePath.Match(s);
+		if (!match.Success)
+		{
+			return null;
+		}
+
+		var hostValue = match.Groups["host"].Value;
+		var pathValue = match.Groups["path"].Value;
+		return Tuple.Create(hostValue, pathValue);
 	}
 
 	public static Uri UpgradeToHttps(this Uri source)

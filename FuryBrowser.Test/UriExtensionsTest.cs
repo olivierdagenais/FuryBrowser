@@ -14,7 +14,18 @@ public class UriExtensionsTest
 		var actual = UriExtensions.GuessDestination(input);
 
 		Assert.AreEqual("https://duckduckgo.com/?q=two+words", actual.ToString());
+	}
 
+	[TestMethod]
+	public void LooksLikeHostWithMaybePath_TwoDotSeparated()
+	{
+		var input = "duckduckgo.com";
+
+		var actual = UriExtensions.LooksLikeHostWithMaybePath(input);
+
+		Assert.IsNotNull(actual);
+		Assert.AreEqual("duckduckgo.com", actual.Item1);
+		Assert.IsTrue(string.IsNullOrEmpty(actual.Item2));
 	}
 
 	[TestMethod]
