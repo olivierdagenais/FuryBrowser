@@ -10,37 +10,20 @@
         xmlns:reactiveUi="http://reactiveui.net"
         mc:Ignorable="d"
         Title="MainView" Height="450" Width="800">
-    <Window.CommandBindings>
-        <CommandBinding Command="GoToPage" Executed="GoToPageCmdExecuted" CanExecute="GoToPageCmdCanExecute" />
-    </Window.CommandBindings>
     <DockPanel>
         <DockPanel DockPanel.Dock="Top">
             <Button x:Name="ButtonGo"
                     DockPanel.Dock="Right"
-                    Command="GoToPage"
-                    CommandParameter="{Binding ElementName=addressBar,Path=Text}"
                     Content="Go"
                     TabIndex="2"
             />
-            <!-- We want the address bar to update based on the WebView's Source,
-            but we don't want the WebView to navigate just from the user typing
-            into the address bar. Therefore we use the OneWay binding mode. -->
             <TextBox
                 Name="addressBar"
                 TabIndex="1"
-                Text="{Binding ElementName=webView,Path=Source,Mode=OneWay}"
                 >
-                <TextBox.InputBindings>
-                    <KeyBinding 
-                        Key="Return"
-                        Command="NavigationCommands.GoToPage"
-                        CommandParameter="{Binding ElementName=addressBar,Path=Text}"
-                    />
-                </TextBox.InputBindings>
             </TextBox>
         </DockPanel>
         <wv2:WebView2 Name="webView"
-                      Source="https://duckduckgo.com"
         />
     </DockPanel>
 </reactiveUi:ReactiveWindow>

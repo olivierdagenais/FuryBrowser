@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Reactive.Disposables;
+using System.Reactive.Linq;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using Microsoft.Web.WebView2.Core;
+using ReactiveUI;
 
 namespace FuryBrowser;
 
@@ -12,6 +15,27 @@ namespace FuryBrowser;
 /// </summary>
 public partial class MainView
 {
+	private static readonly Uri DefaultUri = new("https://duckduckgo.com");
+
+	// TODO: This should probably be an observable property
+	public Uri? Source
+	{
+		get => webView.Source;
+		set
+		{
+			webView.EnsureCoreWebView2Async();
+			var destination = value ?? DefaultUri;
+			if (webView.CoreWebView2 != null)
+			{
+				webView.CoreWebView2.Navigate(destination.ToString());
+			}
+			else
+			{
+				webView.Source = destination;
+			}
+		}
+	}
+
 	public MainView()
 	{
 		// TODO: read from the registry and/or settings
@@ -20,6 +44,39 @@ public partial class MainView
 		ViewModel = new MainViewModel();
 
 		webView.NavigationStarting += EnsureHttps;
+
+		this.WhenActivated(disposableRegistration =>
+		{
+			this.OneWayBind(ViewModel,
+				viewModel => viewModel.Destination,
+				view => view.Source)
+				.DisposeWith(disposableRegistration);
+
+			// We want the address bar to update based on the WebView's Source,
+			// but we don't want the WebView to navigate just from the user typing
+			// into the address bar. Therefore we use WhenAnyValue to listen to Source
+			this.WhenAnyValue(v => v.webView.Source)
+				.Select(u => u.ToString())
+				.BindTo(this, x => x.ViewModel!.OmnibarText)
+				.DisposeWith(disposableRegistration);
+			this.Bind(ViewModel,
+				viewModel => viewModel.OmnibarText,
+				view => view.addressBar.Text)
+				.DisposeWith(disposableRegistration);
+
+			this.BindCommand(ViewModel,
+				viewModel => viewModel.GoToPage,
+				view => view.ButtonGo,
+				viewModel => viewModel.OmnibarText)
+				.DisposeWith(disposableRegistration);
+
+			var enterGoes = new KeyBinding(
+				ViewModel.GoToPage,
+				Key.Return,
+				ModifierKeys.None
+			);
+			addressBar.InputBindings.Add(enterGoes);
+		});
 		var goToAddressBar = new GoToAddressBar(addressBar);
 		this.InputBindings.Add(new KeyBinding(
 			goToAddressBar,
@@ -95,22 +152,5 @@ public partial class MainView
 
 		var finalDestination = UriExtensions.GuessDestination(s);
 		return finalDestination;
-	}
-
-	async void Navigate(string text)
-	{
-		await webView.EnsureCoreWebView2Async();
-		var uri = InterpretOmnibarText(text);
-		webView.CoreWebView2.Navigate(uri?.ToString() ?? text);
-	}
-
-	void GoToPageCmdExecuted(object sender, ExecutedRoutedEventArgs e)
-	{
-		Navigate((string)e.Parameter);
-	}
-
-	private void GoToPageCmdCanExecute(object sender, CanExecuteRoutedEventArgs e)
-	{
-		e.CanExecute = webView != null /* && !isNavigating */;
 	}
 }
