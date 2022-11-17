@@ -10,13 +10,15 @@ namespace FuryBrowser;
 /// <summary>
 /// Interaction logic for MainView.xaml
 /// </summary>
-public partial class MainView : Window
+public partial class MainView
 {
 	public MainView()
 	{
 		// TODO: read from the registry and/or settings
 		TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
 		InitializeComponent();
+		ViewModel = new MainViewModel();
+
 		webView.NavigationStarting += EnsureHttps;
 		var goToAddressBar = new GoToAddressBar(addressBar);
 		this.InputBindings.Add(new KeyBinding(
