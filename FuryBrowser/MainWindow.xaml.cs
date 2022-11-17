@@ -2,6 +2,7 @@
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using Microsoft.Web.WebView2.Core;
 
 namespace FuryBrowser;
@@ -13,6 +14,8 @@ public partial class MainWindow : Window
 {
 	public MainWindow()
 	{
+		// TODO: read from the registry and/or settings
+		TextOptions.SetTextFormattingMode(this, TextFormattingMode.Display);
 		InitializeComponent();
 		webView.NavigationStarting += EnsureHttps;
 		var goToAddressBar = new GoToAddressBar(addressBar);
